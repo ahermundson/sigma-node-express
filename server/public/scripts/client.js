@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  console.log("it's alive!");
 
   $("#postSongForm").on("submit", function(event) {
     event.preventDefault();
@@ -9,7 +8,7 @@ $(document).ready(function() {
       newSong[field.name] = field.value;
     });
 
-    console.log(newSong);
+    console.log("in client.js " + newSong.title);
 
     // send song object to the Server
     $.ajax({
@@ -42,16 +41,13 @@ $(document).ready(function() {
 
   function songsToDom(songs) {
     $("#songContainer").empty();
-
+    var currentDate = new Date();
     for (var i = 0; i < songs.length; i++) {
       $("#songContainer").append('<div class="song"></div>');
       var $el = $("#songContainer").children().last();
       $el.append('<h3>' + songs[i].title + '</h3>');
       $el.append('<p>By: ' + songs[i].artist + '</p>');
+      $el.append('<p>Date added: ' + currentDate + '</p>');
     }
-
   }
-
-
-
 });

@@ -17,15 +17,33 @@ var songs = [
   }
 ];
 
+var duplicateCounter = 0;
 // Routes
 app.post('/songs', function(req, res) {
   // req.body is supplied by bodyParser above
-  console.log("REQ body: ", req.body);
+  duplicateCounter = 0;
   var newSong = req.body;
-  songs.push(newSong);
 
-  // created new resource
-  res.sendStatus(201);
+  if (newSong.title === "" || newSong.artist === "") {
+    console.log("landed here");
+    res.sendStatus(401);
+  }
+
+  for (var i = 0; i < songs.length; i++) {
+    if(newSong.title === songs[i].title) {
+      console.log(newSong.title + " " + songs[i].title);
+      console.log("duplicate");
+      duplicateCounter++;
+    }
+  }
+  if (duplicateCounter === 0) {
+    songs.push(newSong);
+    res.sendStatus(201);
+  } else {
+    console.log(duplicateCounter);
+    console.log("That song has already been entered");
+    res.sendStatus(401);
+  }
 });
 
 app.get('/songs', function(req, res) {
