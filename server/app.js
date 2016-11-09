@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
-var songCheck = require('../modules/songCheck');
+var songDuplicateCheck = require('../modules/songCheck');
 
 // puts post request body data and store it on req.body
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,14 +35,7 @@ app.post('/songs', function(req, res) {
     res.sendStatus(400);
   }
 
-  for (var i = 0; i < songs.length; i++) {
-    if(newSong.title === songs[i].title) {
-      console.log(newSong.title + " " + songs[i].title);
-      console.log("duplicate");
-      duplicateCounter++;
-    }
-  }
-  if (duplicateCounter === 0) {
+  if (!songDuplicateCheck(newSong, songs)) {
     var currentDate = new Date;
     newSong.dateAdded = currentDate.toLocaleString();
     console.log(newSong.dateAdded);
