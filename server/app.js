@@ -43,7 +43,6 @@ app.post('/songs', function(req, res) {
     res.sendStatus(400);
   }
 
-  return songs;
 });
 
 app.get('/songs', function(req, res) {
