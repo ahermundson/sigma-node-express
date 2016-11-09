@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
+// var songCheck = require('../modules/songCheck');
 
 // puts post request body data and store it on req.body
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,13 +21,14 @@ var songs = [
 var duplicateCounter = 0;
 // Routes
 app.post('/songs', function(req, res) {
+  // songCheck();
   // req.body is supplied by bodyParser above
   duplicateCounter = 0;
   var newSong = req.body;
 
   if (newSong.title === "" || newSong.artist === "") {
     console.log("landed here");
-    res.sendStatus(401);
+    res.sendStatus(400);
   }
 
   for (var i = 0; i < songs.length; i++) {
@@ -42,7 +44,7 @@ app.post('/songs', function(req, res) {
   } else {
     console.log(duplicateCounter);
     console.log("That song has already been entered");
-    res.sendStatus(401);
+    res.sendStatus(400);
   }
 });
 
