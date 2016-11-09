@@ -31,20 +31,15 @@ app.post('/songs', function(req, res) {
   var newSong = req.body;
 
   if (newSong.title === "" || newSong.artist === "") {
-    console.log("landed here");
     res.sendStatus(400);
   }
 
   if (!songDuplicateCheck(newSong, songs)) {
     var currentDate = new Date;
     newSong.dateAdded = currentDate.toLocaleString();
-    console.log(newSong.dateAdded);
     songs.push(newSong);
-    console.log(songs);
     res.sendStatus(201);
   } else {
-    console.log(duplicateCounter);
-    console.log("That song has already been entered");
     res.sendStatus(400);
   }
 
@@ -52,7 +47,6 @@ app.post('/songs', function(req, res) {
 });
 
 app.get('/songs', function(req, res) {
-  console.log('handling get request for songs');
   // response options
   // res.sendStatus(200);
   res.send(songs);
