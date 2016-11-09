@@ -41,13 +41,13 @@ $(document).ready(function() {
 
   function songsToDom(songs) {
     $("#songContainer").empty();
-    var currentDate = new Date();
+    var currentDate = new Date;
     for (var i = 0; i < songs.length; i++) {
       $("#songContainer").append('<div class="song"></div>');
       var $el = $("#songContainer").children().last();
       $el.append('<h3>' + songs[i].title + '</h3>');
       $el.append('<p>By: ' + songs[i].artist + '</p>');
-      $el.append('<p>Date added: ' + currentDate + '</p>');
+      $el.append('<p>Date added: ' + songs[i].dateAdded.toLocaleString() + '</p>');
     }
   }
 });

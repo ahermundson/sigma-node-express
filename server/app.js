@@ -3,24 +3,28 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
-// var songCheck = require('../modules/songCheck');
+var songCheck = require('../modules/songCheck');
 
 // puts post request body data and store it on req.body
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('port', process.env.PORT || 3000);
 
+
+var currentDate = new Date;
 // Our song data
 var songs = [
   {
     artist: "Bruce Springstein",
-    title: "Born in the U.S.A."
+    title: "Born in the U.S.A.",
+    dateAdded: currentDate.toLocaleString()
   }
 ];
 
 var duplicateCounter = 0;
 // Routes
 app.post('/songs', function(req, res) {
+  console.log(songs);
   // songCheck();
   // req.body is supplied by bodyParser above
   duplicateCounter = 0;
@@ -39,13 +43,19 @@ app.post('/songs', function(req, res) {
     }
   }
   if (duplicateCounter === 0) {
+    var currentDate = new Date;
+    newSong.dateAdded = currentDate.toLocaleString();
+    console.log(newSong.dateAdded);
     songs.push(newSong);
+    console.log(songs);
     res.sendStatus(201);
   } else {
     console.log(duplicateCounter);
     console.log("That song has already been entered");
     res.sendStatus(400);
   }
+
+  return songs;
 });
 
 app.get('/songs', function(req, res) {
